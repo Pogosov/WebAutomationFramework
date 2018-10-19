@@ -1,0 +1,48 @@
+﻿<Window x:Class="Automation.Web.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Automation.Web"
+        mc:Ignorable="d"
+        Title="Automation Web Browser" Height="450" Width="800">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="180"/>
+		</Grid.ColumnDefinitions>
+
+
+		<DockPanel Grid.Row="0" LastChildFill="True" Margin="5" Grid.ColumnSpan="2">
+			<Button DockPanel.Dock="Left" Width="50" Click="NavigateBack">&lt;--</Button>
+			<Button DockPanel.Dock="Left" Width="50" Click="NavigateForward">--&gt;</Button>
+			<Button DockPanel.Dock="Right" Width="50" Click="NavigateToUrl_Click">Go</Button>
+			<TextBox Name="UrlTextBox" DockPanel.Dock="Left"></TextBox>
+		</DockPanel>
+		<WebBrowser Name="WebBrowser" Margin="10" Grid.Row="1" LoadCompleted="WebBrowser_LoadCompleted" Navigating="WebBrowser_Navigating"/>
+
+		<DockPanel Grid.Column="1" Grid.Row="1" Margin="10" LastChildFill="True">
+			<CheckBox Name="SelectionEnabled" DockPanel.Dock="Top">Enable Element Selection:</CheckBox>
+			<Button DockPanel.Dock="Top" Click="ResetHandlers_OnClick">Inject Click Handlers On Page</Button>
+			<Button DockPanel.Dock="Top" Click="AnalyzeElements_OnClick">Analyze HTML Elements</Button>
+			<Button DockPanel.Dock="Top" Click="GeneratePageObject_OnClick">Generate Page Objects</Button>
+
+			<ListBox DockPanel.Dock="Bottom" Margin="10" Name="ElementListBox" ItemsSource="{Binding}" SelectionChanged="ElementListBox_OnSelectionChanged">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel>
+							<TextBlock>
+								<Run Text="{Binding Tag}" FontWeight="Bold"/>
+								<Run Text="{Binding Selector, Mode=OneWay}"/>
+							</TextBlock>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</DockPanel>
+	</Grid>
+</Window>
